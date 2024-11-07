@@ -47,6 +47,8 @@ const displayTodos = (project, index) => {
       deleteTodo(index, project);
     });
 
+    todoElement.appendChild(editButton);
+    todoElement.appendChild(deleteButton);
     todosContainer.appendChild(todoElement);
   });
 };
@@ -101,7 +103,26 @@ const initializeUI = () => {
 };
 
 const editTodoForm = (todo, index, project) => {
-  document.getElementById("todotutle");
+  document.getElementById("todo-title").value = todo.title;
+  document.getElementById("todo-description").value = todo.description;
+  document.getElementById("todo-due-date").value = todo.dueDate;
+  document.getElementById("todo-priority").value = todo.priority;
+
+  const todoForm = document.getElementById("todo-forml");
+  todoForm.onsubmit = (e) => {
+    e.preventDefault();
+
+    todo.title = document.getElementById("todo-title").value;
+    todo.description = document.getElementById("todo-description").value;
+    todo.dueDate = document.getElementById("todo-due-date").value;
+    todo.priority = document.getElementById("todo-priority").value;
+
+    saveProjects(loadProjects());
+    displayTodos(project);
+
+    todoForm.onsubmit = addNewTodo;
+    todoForm.reset();
+  };
 };
 
 export { initializeUI, displayProjects, displayTodos };
